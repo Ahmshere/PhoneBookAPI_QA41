@@ -1,6 +1,18 @@
 package models;
 
 public class ContactModel {
+    @Override
+    public String toString() {
+        return "ContactModel{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 
     private String id;
     private String name;
