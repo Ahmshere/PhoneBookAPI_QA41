@@ -1,4 +1,5 @@
 import helpers.PropertiesReader;
+import helpers.PropertiesWriter;
 import helpers.TestConfig;
 import models.AuthenticationRequestModel;
 import models.AuthenticationResponseModel;
@@ -18,6 +19,7 @@ public class LoginTest {
         AuthenticationRequestModel requestModel = AuthenticationRequestModel
                 .username(PropertiesReader.getProperty("existingUserEmail"))
                 .password(PropertiesReader.getProperty("existingUserPassword")); // Создается экземпляр класса AuthenticationRequestModel с заданными данными пользователя для аутентификации (email и пароль).
+        System.out.println("REQUEST: "+requestModel.getUsername()+" : "+requestModel.getPassword());
 
         RequestBody requestBody = RequestBody
                 .create(TestConfig.gson.toJson(requestModel),
@@ -26,7 +28,9 @@ public class LoginTest {
         Request request = new Request.Builder()
                 .url(PropertiesReader.getProperty("loginPassword"))
                 .post(requestBody)
-                .build(); // Создается объект Request, представляющий HTTP POST-запрос к указанному URL с телом,
+                .build();
+        System.out.println("REQ "+request.toString());
+        // Создается объект Request, представляющий HTTP POST-запрос к указанному URL с телом,
         // содержащим данные аутентификации. Класс Request является частью библиотеки OkHttp,
         // которая предоставляет удобный способ для работы с сетевыми запросами. в итоге у вас получается объект Request,
         // который готов к отправке на сервер с заданными параметрами: методом POST, URL-адресом и телом запроса.
@@ -39,7 +43,9 @@ public class LoginTest {
             AuthenticationResponseModel responseModel =
                     TestConfig.gson.fromJson(response.body().string(),
                             AuthenticationResponseModel.class);
-            System.out.println("Token : "+ responseModel.getToken());
+
+            PropertiesWriter.writeProperties("token",responseModel.getToken(), false);
+
             Assert.assertTrue(response.isSuccessful());
         }
         else {

@@ -21,14 +21,18 @@ public class GetAllContacts {
         Response response = TestConfig.client.newCall(request).execute();
 
         String responseBody = response.body().string();
+        System.out.println("Response body: "+responseBody.toString());
         Assert.assertTrue(response.isSuccessful());
         ContactListModel contacts =
                 TestConfig.gson.fromJson(responseBody, ContactListModel.class);
 
-       /* for (ContactModel contactModel : ){
+        for (ContactModel contactModel : contacts.getContacts()){
+            System.out.println(contactModel.getName());
+            System.out.println(contactModel.getEmail());
+            System.out.println("+++++++++++++++++++++++++++++++++++++++");
 
         }
-*/
+
 
     }
 
